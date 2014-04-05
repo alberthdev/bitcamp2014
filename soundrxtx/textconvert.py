@@ -20,7 +20,7 @@
 import binascii
 
 def ASCII_file_to_binary(input_file):
-    with open (input, 'rb') as myfile:
+    with open (input_file, 'rb') as myfile:
         data = myfile.read().replace('\n', '')
 
     return bin(int(binascii.hexlify(data), 16))
@@ -29,7 +29,7 @@ def ASCII_to_binary(input_str):
     return bin(int(binascii.hexlify(input_str), 16))
 
 def binary_to_ASCII(input_str):
-    string = int(input, 2)
+    string = int(input_str, 2)
 
     return binascii.unhexlify('%x' % string)
 
