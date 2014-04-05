@@ -26,7 +26,7 @@ def ASCII_file_to_binary(input_file):
     return bin(int(binascii.hexlify(data), 16))
 
 def ASCII_to_binary(input_str):
-    return bin(int(binascii.hexlify(input_str), 16))
+    return bin(int(binascii.hexlify(input_str), 16))[2:]
 
 def binary_to_ASCII(input_str):
     string = int(input_str, 2)
