@@ -19,14 +19,15 @@ def ASCII_to_hex(input):
 def hex_to_ASCII(input):
     return binascii.unhexlify(input)
 
-binary = ASCII_to_binary('test.txt')
-print(binary)
-
-binary_string = binary_to_ASCII(binary)
-print(binary_string)
-
-hex = ASCII_to_hex('test.txt')
-print(hex)
-
-hex_string = hex_to_ASCII(hex)
-print(hex_string)
+if __name__ == "__main__":
+	binary = ASCII_to_binary('test.txt')
+	print(binary)
+	
+	binary_string = binary_to_ASCII(binary)
+	print(binary_string)
+	
+	hex = ASCII_to_hex('test.txt')
+	print(hex)
+	
+	hex_string = hex_to_ASCII(hex)
+	print(hex_string)

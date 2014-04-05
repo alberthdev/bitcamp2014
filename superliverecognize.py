@@ -14,7 +14,7 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 1
 #RATE = 44100
 RATE = 44100
-RECORD_SECONDS = 10
+RECORD_SECONDS = 30
 
 # use a Blackman window
 window = np.blackman(CHUNK)
@@ -36,7 +36,7 @@ freq_dict = {}
 swidth = p.get_sample_size(FORMAT)
 
 tstep = 0
-max_tstep = 0
+max_tstep = 1
 
 # play stream and find the frequency of each CHUNK
 for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
@@ -68,6 +68,7 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     if tstep == max_tstep:
         sorted_fd = sorted(freq_dict.iteritems(), key=operator.itemgetter(1), reverse=True)
         i = 0
+        tone_list = [ 800, 1000, 2000, 3000, 6000, 8000 ]
         #print "Found frequencies:"
         '''for key in sorted_fd:
             if i < 2:
@@ -75,16 +76,36 @@ for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
                 i += 1
             else:
                 break'''
-        for key in sorted_fd:
+        '''for key in sorted_fd:
             if i < 2:
-                if key[0] == 1000:
-                    print "BEEP1 - Lower"
+                if key[0] == 800:
+                    print "BEEP - 800 Hz"
+                elif key[0] == 1000:
+                    print "BEEP - 1000 Hz"
                 elif key[0] == 2000:
-					print "BEEP2 - Medium"
-                elif key[0] == 5000:
-                    print "BEEP3 - Higher"
+                    print "BEEP - 2000 Hz"
+                elif key[0] == 3000:
+                    print "BEEP - 3000 Hz"
+                elif key[0] == 4000:
+                    print "BEEP - 4000 Hz"
+                elif key[0] == 6000:
+                    print "BEEP - 6000 Hz"
+                elif key[0] == 8000:
+                    print "BEEP - 8000 Hz"
+                elif key[0] == 9000:
+                    print "BEEP - 9000 Hz"
                 
                 i += 1
+            else:
+                break
+            '''
+        i = 0
+        for key in sorted_fd:
+            if i < 4:
+                i += 1
+                for tone in tone_list:
+                    if key[0] == tone:
+                        print "BEEP - %i Hz [%i pings] [at %i]" % (key[0], key[1], i)
             else:
                 break
         tstep = 0
