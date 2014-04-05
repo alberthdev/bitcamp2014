@@ -165,7 +165,7 @@ def recognize_live(p, stream, time_len, freq_to_detect, find_freq_func):
 # )
 # Returns:
 #     freq_array - array of frequencies found, in order of time found
-def recognize(p, stream, time_len, freq_to_detect, find_freq_func):
+def recognize(p, stream, time_len, freq_to_detect):
     global rec_running
     rec_running = True
 
