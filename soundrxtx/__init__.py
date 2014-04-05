@@ -19,3 +19,4 @@
 
 import tone
 import recognize
+import textconvert
