@@ -136,7 +136,6 @@ def recognize_live(p, stream, time_len, freq_to_detect, find_freq_func):
         
         if tstep == max_tstep:
             sorted_fd = sorted(freq_dict.iteritems(), key=operator.itemgetter(1), reverse=True)
-            i = 0
             tone_list = freq_to_detect
             i = 0
             for key in sorted_fd:
@@ -152,6 +151,7 @@ def recognize_live(p, stream, time_len, freq_to_detect, find_freq_func):
         else:
             tstep += 1
     rec_running = False
+
 # Function
 #     recognize(p, stream, time_len, freq_to_detect, find_freq_func)
 #     Recognize given frequencies from audio and call a function when
@@ -212,8 +212,7 @@ def recognize(p, stream, time_len, freq_to_detect, find_freq_func):
         
         if tstep == max_tstep:
             sorted_fd = sorted(freq_dict.iteritems(), key=operator.itemgetter(1), reverse=True)
-            i = 0
-            tone_list = [ 800, 1000, 2000, 3000, 6000, 8000 ]
+            tone_list = freq_to_detect
             i = 0
             for key in sorted_fd:
                 if i < 4:
