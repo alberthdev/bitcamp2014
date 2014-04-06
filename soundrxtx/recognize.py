@@ -109,7 +109,6 @@ def recognize_live(p, stream, time_len, freq_to_detect, find_freq_func):
     
     # play stream and find the frequency of each CHUNK
     for i in range(0, int(RATE / CHUNK * time_len)):
-        print "ABC: %i" % i
         if not rec_running:
             break
         data = stream.read(CHUNK)

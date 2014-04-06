@@ -69,9 +69,9 @@ print "Initializing..."
 
 scale = [130.8, 146.8, 164.8, 174.6, 195.0, 220.0, 246.9, 261.6]
 for tone in scale:
-    soundrxtx.tone.play_tone(tone*2, 0.1, 0.1, soundrxtx.tone.audio_rate, stream)
+    soundrxtx.tone.play_tone(tone*2, 0.5, 0.1, soundrxtx.tone.audio_rate, stream)
 for tone in scale[::-1]:
-    soundrxtx.tone.play_tone(tone*2, 0.1, 0.1, soundrxtx.tone.audio_rate, stream)
+    soundrxtx.tone.play_tone(tone*2, 0.5, 0.1, soundrxtx.tone.audio_rate, stream)
 
 tones = [1000, 3000, 6000]
 
