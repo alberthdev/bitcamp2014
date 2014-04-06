@@ -64,4 +64,4 @@ while tone < 10000:
     if freq_found == True:
         print "  !! Found tone %i!" % tone
     soundrxtx.recognize.end((pr, streamr))
-    tone += 50
+    tone += 25

@@ -28,12 +28,14 @@ global str_buf
 global bit_str_buf
 global total_bit_str
 global freq_found
+global done_state
 state = 0
 prev_freq = 0
 str_buf = ""
 base_str_buf = ""
 total_bit_str = ""
 freq_found = False
+done_state = False
 
 def process_freq(freq):
     global state
@@ -42,6 +44,10 @@ def process_freq(freq):
     global base_str_buf
     global total_bit_str
     global freq_found
+    global done_state
+    
+    if done_state:
+        return
     
     if freq != prev_freq:
         for tone in tones:
@@ -49,13 +55,18 @@ def process_freq(freq):
                 freq_found = True
                 print "FOUND FREQ: %i (Bsize: %i)" % (freq, len(base_str_buf))
                 if (freq != tones[-1]):
-                    if (state == 0):
-                        state = 1
-                        base_str_buf += soundrxtx.textconvert.base_letters[tones.index(freq)]
+                    if (freq != tones[-2]):
+                        if (state == 0):
+                            state = 1
+                            base_str_buf += soundrxtx.textconvert.base_letters[tones.index(freq)]
+                        else:
+                            print "WARNING: Extra tone found in wrong state!"
                     else:
-                        print "WARNING: Extra tone found in wrong state!"
+                        print "Toggle state to final state"
+                        done_state = True
                 else:
                     if (state == 1):
+                        print "Toggle state to end state"
                         state = 0
                     else:
                         print "WARNING: Blank tone found in wrong state!"
@@ -76,6 +87,7 @@ def send_str(thestr):
         print tones[soundrxtx.textconvert.base_letters.index(bin_str[i])]
         soundrxtx.tone.play_tone(tones[soundrxtx.textconvert.base_letters.index(bin_str[i])], 1, 0.1, soundrxtx.tone.audio_rate, stream)
         soundrxtx.tone.play_tone(tones[-1], 1, 0.1, soundrxtx.tone.audio_rate, stream)
+    soundrxtx.tone.play_tone(tones[-2], 1, 0.1, soundrxtx.tone.audio_rate, stream)
 
 print "Initializing..."
 
@@ -86,8 +98,11 @@ for tone in scale[::-1]:
     soundrxtx.tone.play_tone(tone*2, 0.5, 0.1, soundrxtx.tone.audio_rate, stream)
 
 # NEED:  17
-#        1    2     3     4     5     6     7     8     9     10    11    12    13    14    15    16    17
-tones = [500, 550,  600,  750,  800,  1000, 1200, 1500, 1600, 2000, 2400, 3000, 3200, 4800, 6000, 8000, 9600]
+#        1    2     3     4     5     6     7     8     9     10    11    12    13    14    15    16    17   18
+tones = [450, 500, 550,  600,  750,  800,  1000, 1200, 1500, 1600, 2000, 2400, 3000, 3200, 4800, 6000, 8000, 9600]
+
+# Time limit
+t_limit = 5
 
 while True:
     print "Options:"
@@ -97,10 +112,11 @@ while True:
     
     if option == 1:
         (pr, streamr) = soundrxtx.recognize.init()
+        done_state = False
         for i in range(0, 60):
             freq_found = False
             # recognize_live(p, stream, time_len, freq_to_detect, find_freq_func)
-            soundrxtx.recognize.recognize_live(pr, streamr, 5, tones, process_freq)
+            soundrxtx.recognize.recognize_live(pr, streamr, t_limit, tones, process_freq)
             if not freq_found:
                 if base_str_buf != '':
                     if len(base_str_buf) % 2 == 0:
@@ -111,6 +127,7 @@ while True:
                     base_str_buf = ""
                 else:
                     print "No output received!"
+                state = 0
                 break
         soundrxtx.recognize.end((pr, streamr))
     elif option == 2:
