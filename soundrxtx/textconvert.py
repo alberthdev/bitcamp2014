@@ -29,7 +29,11 @@ def ASCII_file_to_binary(input_file):
     return bin(int(binascii.hexlify(data), 16))
 
 def ASCII_to_binary(input_str):
-    return bin(int(binascii.hexlify(input_str), 16))[2:]
+    res = bin(int(binascii.hexlify(input_str), 16))[2:]
+    if len(res) % 2 == 1:
+        return "0"+res
+    else:
+        return res
 
 def binary_to_ASCII(input_str):
     string = int(input_str, 2)
@@ -42,7 +46,11 @@ def ASCII_file_to_hex(input_file):
     return binascii.hexlify(data)
 
 def ASCII_to_hex(input_str):
-    return binascii.hexlify(input_str)
+    res = binascii.hexlify(input_str)
+    if len(res) % 2 == 1:
+        return "0"+res
+    else:
+        return res
 
 def hex_to_ASCII(input_str):
     return binascii.unhexlify(input_str)
